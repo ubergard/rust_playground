@@ -1,3 +1,8 @@
+/*
+    Made for learning rust
+*/
+
+
 // Struct with implementations + trait
 struct Place {
     x: i32,
@@ -86,12 +91,68 @@ fn main() {
 
 } 
 
-/*
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
+
     #[test]
-    let place_test = Place{..Default::default()};
-    assert_eq!(place_test, Place{x: 1, y: 0, z: 3});
-} */
+    fn default_struct() {
+        let place_test = Place{..Default::default()};
+        //let place_default = Place{x: 1, y: 0, z: 3};
+        assert_eq!(place_test.x, 1);
+        assert_eq!(place_test.y, 0);
+        assert_eq!(place_test.z, 3);
+    }
+
+    #[test]
+    fn place_struct_values() {
+        let place_point = Place{x: 2, y: 9, z: 4};
+        assert_eq!(place_point.x, 2);
+        assert_eq!(place_point.y, 9);
+        assert_eq!(place_point.z, 4);
+    }
+
+    #[test]
+    fn highest_value_point() {
+        let place_test = Place{..Default::default()};
+        assert_eq!(place_test.findhighest(), 3)
+    }
+
+    #[test]
+    fn enum_matches() {
+        let guest_person: School = School::Guest;
+        match  guest_person {
+            School::Guest => {
+                ()
+            }
+            School::Student => {
+                panic!()
+            }
+            School::Teacher => {
+                panic!()
+            }
+            School::Undecided => {
+                panic!()
+            }
+        }
+
+        let guest_person: School = School::Undecided;
+        match  guest_person {
+            School::Guest => {
+                panic!()
+            }
+            School::Student => {
+                panic!()
+            }
+            School::Teacher => {
+                panic!()
+            }
+            School::Undecided => {
+                ()
+            }
+        }
+    }
+
+}
