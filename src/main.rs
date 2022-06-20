@@ -2,8 +2,10 @@
     Made for learning rust
 */
 
+use std::io::Error;
 
-// Struct with implementations + trait
+
+// ----- Struct with implementations + trait -----
 struct Place {
     x: i32,
     y: i32,
@@ -39,10 +41,10 @@ impl HighestValues for Place {
     }
     
 }
-// ----------------------------------
+// ---------------------------------------
 
 
-// Enumerations
+// ------------ Enumerations -------------
 
 enum School {
     Student,
@@ -51,7 +53,7 @@ enum School {
     Undecided
 }
 
-fn school_identifier(person: School) {
+fn school_identifier(person: &School) {
     match person {
         School::Student => {
             println!("This is a student")
@@ -67,6 +69,44 @@ fn school_identifier(person: School) {
         }
     }
 }
+
+// ------------------------------------
+
+
+// --------- Vector/function ----------
+
+fn make_vector_add_content() -> Vec<i32> {
+    let my_vec = vec![1, 2, 3];
+    my_vec
+}
+
+fn double_over_vec(iter_vec: &mut Vec<i32>) -> &Vec<i32> {
+    let vec_len = iter_vec.len();
+    for i in 0..vec_len {
+        iter_vec[i] *= 2;
+    }
+    iter_vec 
+}
+
+
+// ----------------------------------
+
+
+
+// --------- Error handling ----------
+
+fn great_guest(person: &School) -> Result<String, String>{
+    match person {
+        School::Guest => {
+            Ok("Hello guest!".to_string())
+        }
+        _ => {
+            Err("Not a guest!".to_string())
+        }
+    }
+
+}
+
 
 // ----------------------------------
 
@@ -85,9 +125,22 @@ fn main() {
 
     // Enum
     let boy: School = School::Student;
-    school_identifier(boy);
+    school_identifier(&boy);
     let lady: School = School::Teacher;
-    school_identifier(lady);
+    school_identifier(&lady);
+
+
+    // Vector
+    let mut generated_vector = make_vector_add_content();
+    println!("First element {}",&generated_vector[0]);
+    double_over_vec(&mut generated_vector);
+    println!("First element after double_over_vec {}",&generated_vector[0]);
+
+    // Error handling
+    println!("{:?}", great_guest(&lady));
+    let random_pers: School = School::Guest;
+    println!("{:?}", great_guest(&random_pers));
+    
 
 } 
 
@@ -153,6 +206,25 @@ mod tests {
                 ()
             }
         }
+    }
+
+    #[test]
+    fn double_vec() {
+        let mut generated_vector = make_vector_add_content();
+        double_over_vec(&mut generated_vector);
+        assert_eq!(generated_vector[0], 2)
+    }
+
+    #[test]
+    fn error_guest_true() {
+        let random_pers: School = School::Guest;
+        assert_eq!(great_guest(&random_pers), Ok("Hello guest!".to_string()))
+    }
+
+    #[test]
+    fn error_guest_false() {
+        let random_pers: School = School::Teacher;
+        assert_eq!(great_guest(&random_pers), Err("Not a guest!".to_string()))
     }
 
 }
