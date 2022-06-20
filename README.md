@@ -14,4 +14,5 @@ Have some experience from embedded C.
   <li>Enums</li>
   <li>Control flow</li>
   <li>Match</li>
+  <li>Tests</li>
 </ul>
